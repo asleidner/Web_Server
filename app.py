@@ -8,6 +8,7 @@ flask run
 from flask import Flask, request, Response
 import db
 from views import posts, comments
+import datetime
 
 app = Flask(__name__)
 db.init_database_connection(app)
@@ -16,8 +17,13 @@ app = Flask(__name__)
 
 # connect your routes to your app:
 @app.route('/')
+#must resolve to string
 def home_page():
-    return 'This is your API Homepage'
+    return 'Today is the inauguration: {0}'.format(datetime.datetime.now())
+
+@app.route('/wednesday')
+def wednesday():
+    return 'Wednesday'
 
 # routes from other files:
 app.register_blueprint(posts.api)

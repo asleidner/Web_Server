@@ -1,4 +1,4 @@
-import models
+    import models
 from flask import Response, request
 from flask import Blueprint
 import json
@@ -12,7 +12,7 @@ def get_posts():
         data = models.Post.objects.to_json()
         return Response(data, mimetype="application/json", status=200)
     else:
-        # create a new post
+        # create a new post saves new resource to mongo
         data = request.get_json()
         print(data)
         post = models.Post(**data).save()
