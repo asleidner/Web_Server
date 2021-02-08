@@ -1,0 +1,66 @@
+<html>
+    <head>
+        <title>Alex Blog</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+        <link rel="stylesheet" href="/static/css/style.css">
+    </head>
+    <body>
+        <nav>
+            <a class="nav-link" href="/"><i class="fas fa-home"></i> Home</a>
+        </nav>
+        <main>
+            <!-- Buttons -->
+            <section id="menu" class="align-right">
+                <button class="btn btn-main" id="edit-button">Edit Post</button>
+                <button class="btn btn-delete" id="delete-button">Delete</button>
+            </section>
+
+            <!-- To view the post -->
+            <div id="view-post">
+                <section class="post"></section>
+                <section class="comments"></section>
+            </div>
+
+            <!-- To edit the post -->
+            <form id="post-form" class="hide"></form>
+
+            <!-- TODO: Add the comments associated with this blog below: -->
+            <div id="comments">
+                <p></p>
+                <!-- goal:
+                1. Query the comments endpoint: /api/comments
+                2. Build an HTML representation of each comments
+                3. Inject those HTML nodes into this section
+                    document.querySelector('#')
+                -->
+            </div>
+
+        <div id="post-form">
+            <button class="btn btn-delete" id="delc-button">Delete Most Recent Comment</button>
+            <h1>Add New Comment</h1>
+            <form id="post-form">
+                <div class="input-section">
+                    <label for="comment">Comment</label>
+                    <input type="text" name="comment" id="comment">
+                </div>
+                <div class="input-section">
+                    <label for="author">Author</label>
+                    <input type="text" name="author" id="author">
+                </div>
+                <button class="btn btn-main" id="save" type="submit">Save</button>
+                <a class="btn" href="/">Cancel</a>
+            </form>
+            <section id="confirmation" class="hide">
+                <p>
+                    Your post was successfully added. <a href="/">Check it out</a>.
+                </p>
+            </section>
+        </div>
+        </main>
+
+
+
+        <!--  JavaScript files right before the closing body tag -->
+        <script type="text/javascript" src="/static/js/post-detail.js"></script>
+    </body>
+</html>
