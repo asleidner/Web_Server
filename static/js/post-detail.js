@@ -42,15 +42,34 @@ const displayComments = (comms) => {
             <p><strong>Comment ${counter}:</strong> ${comment.comment}</p>
             <p></p><strong>Author:</strong> ${comment.author}</p>
             </section>`
-                n=num.toString();
-                theid="delc-button"+n
-                theHTML += '<button class="btn btn-delete" id="delc-button">Delete Comment</button>';
+                //buttons = makeDelButt(counter)
+                //theHTML += `${buttons}``;
+                theHTML += `<button class="delete-comment" id="del-com" data-comment-id=${comment._id.$oid}>Delete Comment</button>`;
                 commentids.push(comment._id.$oid);
             }
         }
+        counter=1
         document.querySelector('#comments').innerHTML = theHTML
-        document.querySelector("#delc-button").onclick = deleteComments;
+
+        const commentButtons = document.querySelectorAll('.delete-comment');
+        for (const deleteButton of commentButtons)
+        {
+            //theid=deleteButton.getAttribute('data-comment-id')
+            deleteButton.onclick = deleteComments2;
+        }
+        //document.querySelector("#delc-button").onclick = deleteComments;
 };
+
+/*
+function makeDelButt(n){
+    var close = document.createElement("input");
+    close.setAttribute("type", "button");
+    close.setAttribute("class", "btn btn-delete");
+    close.setAttribute("id", "delc-button"+counter);
+    close.setAttribute("onclick"," hideFields(); createPicker();")
+    return (close);
+
+}*/
 
 const deleteComments = (ev) => {
     number = counter - 1
@@ -58,7 +77,51 @@ const deleteComments = (ev) => {
     if (!doIt) {
         return;
     }
-    fetch('/api/comments/' + commentids[number] + '/', {
+    fetch('/api/comments/' + commentids[i] + '/', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        // navigate back to main page:
+        // window.location.href = '/';
+    });
+    ev.preventDefault()
+    window.location.reload();
+};
+
+/*function deleteComments2(num) {
+    const doIt = confirm('Delete Comment?');
+    if (!doIt) {
+        return;
+    }
+    fetch('/api/comments/' + num + '/', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        // navigate back to main page:
+        // window.location.href = '/';
+    });
+    //ev.preventDefault()
+    window.location.reload();
+}*/
+
+const deleteComments2 = (ev) => {
+    const button = ev.currentTarget;
+    const commentID = button.getAttribute('data-comment-id');
+    const doIt = confirm('Delete Comment?'+commentID);
+    if (!doIt) {
+        return;
+    }
+    fetch('/api/comments/' + commentID + '/', {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
@@ -232,11 +295,12 @@ const initializePage = () => {
     document.querySelector('#delete-button').onclick = deletePost;
     document.querySelector("#delc-button").onclick = deleteComments;
     document.querySelector('#save').onclick = createComment;
-    //i=0;
-    //for (i = 0; i < counter; i++) {
-        //document.querySelector('#delc-button${i}').onclick = deleteComments;
-        //<button class="btn btn-delete" id="delc-button${counter}">Mark as Fake News</button>
-        //}
+    //document.querySelector("#btc-del").onclick = deleteComments2;
+
+        /*    for (i = 0; i < counter; i++) {
+        document.querySelector(`#delc-button${i}`).onclick = deleteComments2(i);
+        //<button class="btn btn-delete" id="delc-button${i}">Mark as Fake News</button>
+        }*/
 };
 
 
