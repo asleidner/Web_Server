@@ -293,10 +293,9 @@ const initializePage = () => {
     // add button event handler (right-hand corner:
     document.querySelector('#edit-button').onclick = renderForm;
     document.querySelector('#delete-button').onclick = deletePost;
-    document.querySelector("#delc-button").onclick = deleteComments;
+    //document.querySelector("#delc-button").onclick = deleteComments;
     document.querySelector('#save').onclick = createComment;
     //document.querySelector("#btc-del").onclick = deleteComments2;
-
         /*    for (i = 0; i < counter; i++) {
         document.querySelector(`#delc-button${i}`).onclick = deleteComments2(i);
         //<button class="btn btn-delete" id="delc-button${i}">Mark as Fake News</button>
