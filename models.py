@@ -4,6 +4,7 @@ import json
 from mongoengine import \
     Document, StringField, DateTimeField, ReferenceField, ListField, CASCADE
 
+
 class Post(Document):
     title = StringField(required=True, max_length=200)
     content = StringField(required=True)

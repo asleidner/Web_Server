@@ -1,28 +1,54 @@
 <html>
     <head>
-        <title>Tester</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
-        <link rel="stylesheet" href="/static/css/style.css">
+        <title>Cluster Visualization</title>
+        <link rel="stylesheet" href="/static/css/styles.css">
     </head>
     <body>
-        <nav>
-            <a class="nav-link" href="/"><i class="fas fa-home"></i> Home</a>
-        </nav>
-        <main>
-            <!-- 1. Buttons -->
-            <section id="menu" class="align-right">
-                <a class="btn btn-main" href="/add-post/"><i class="fas fa-plus"></i> Create</a>
-            </section>
-            <h1>My Blog Posts</h1>
-            <!-- posts get populated here -->
-            <div id="posts">this will get populated from the database</div>
+        <header>
+            <h1 class="desktop"><a href="#">transparent</a><b href="#">.ai</b></h1>
+            <a id="menu-button" class="mobile" href="#">
+               <i class="menu-toggle fas fa-bars"></i>
+            </a>
+            <h1 class="mobile">CS330: Winter 2021</h1>
+         </header>
+
+         <nav>
+            <ul>
+               <li class="active"><a href="#">Home</a></li>
+               <li ><a href="/add-cluster/">New Cluster</a></li>
+               <li><a href="#">Browse Clusters</a></li>
+               <li><a href="#">Login</a></li>
+            </ul>
+         </nav>
+
+         <div class="cardoptions">
+            <div class="card">
+                <div class="bg-img" style="background-image:url('https://advcloudfiles.advantech.com/cms/3fee4fbc-8048-4460-a820-8c8193fa460d/Content/content-image-1572316579338.jpg');"></div>
+                <div class="card-block">
+                <h4 class="card-title">New Cluster!</h4>
+                <p class="card-text">
+                    Upload data to cluster and
+                    visualize!
+                </p>
+                <a href="/add-cluster/" class="btn btn-primary">Create</a>
+            </div>
+            </div>
 
 
-        </main>
+            <!-- Second Card -->
+            <div class="card">
+            <div class="bg-img" style="background-image:url('https://3qeqpr26caki16dnhd19sv6by6v-wpengine.netdna-ssl.com/wp-content/uploads/2020/04/Scatter-Plot-of-Synthetic-Clustering-Dataset-With-Points-Colored-By-Known-Cluster.png');"></div>
+            <div class="card-block">
+                <h4 class="card-title">Browse Clusters</h4>
+                <p class="card-text">
+                    Explore existing clusters, graphs, and
+                     data!
+                </p>
+                <a href="#" class="btn">Browse</a>
+            </div>
+            </div>
+        </div>
 
-
-
-        <!--  JavaScript files right before the closing body tag -->
-        <script type="text/javascript" src="/static/js/get-posts.js"></script>
+        <script src="nav.js" type="text/javascript"></script>
     </body>
 </html>
