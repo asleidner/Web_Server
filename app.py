@@ -13,7 +13,6 @@ import pandas as pd
 import os
 from pymongo import MongoClient
 import json
-import numpy as np
 import dataframe_image as dfi
 
 import db
