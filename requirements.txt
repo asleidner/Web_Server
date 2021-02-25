@@ -11,4 +11,3 @@ gunicorn==20.0.4
 flask-mongoengine
 dataframe_image
 pandas
-json
