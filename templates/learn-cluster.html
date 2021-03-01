@@ -24,17 +24,24 @@
         <div class="cardoptions">
         <div class="card2">
         <subheader>
-            <h1 class="desktop">dataframe<b>.preview </b></h1>
+            <h1 class="desktop">cluster<b>.params </b></h1>
          </subheader>
 
-        <div class="figure">
-           <img src={{ url_for('static', filename='mytable.png') }}>
-        </div>
-
-        <h4 class="Instruction">If this is a sample of the data you wish to edit proceed below! <br /> Otherwise retry to upload at New Cluster above.<h4>
+        <form action="{{ url_for('make_cluster')}}" id="post-form" method="post">
+                <div class="input-section">
+                    <label for="name">Name your workspace. </br></label>
+                    <input type="text" name="wspace" id="workspace">
+                </div>
+                <div class="input-section">
+                    <label for="num">Number of clusters? </br></label>
+                    <input type="number" name="nofc" id="numofc">
+                </div>
+                <button class="btn btn-main" id="save" type="submit">Save</button>
+                <a class="btn" href="/">Cancel</a>
+            </form>
 
         <div class="hcenter">
-        <a href="/learn-cluster/" class="btn2">Proceed to Clustering Data</a>
+        <a href="#" class="btn3">Cluster IT!</a>
         </div>
         </div>
         </div>

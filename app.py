@@ -15,10 +15,12 @@ from pymongo import MongoClient
 import json
 import dataframe_image as dfi
 import numpy as np
+from sklearn.mixture import GaussianMixture
 
 import db
 from views import posts, comments
 from io import StringIO
+from cluster_explorer import cluster_explore
 
 app = Flask(__name__)
 CORS(app)
@@ -49,6 +51,24 @@ def view_data():
     collection = newdb['csvs']
     doc=collection[0]
     print(doc)
+
+@app.route('/learn-cluster/')
+def learn_cluster():
+    return render_template('learn-cluster.html')
+
+@app.route('/learn-cluster/',methods=['POST'])
+def make_cluster():
+    #Workspace=request.form.get("workspace")
+    #num_clusters = request.form.get("numofc")
+    print(request.form)
+    workspace=request.form.get("wspace")
+    num_clusters = int(request.form.get("nofc"))
+    data = pd.read_csv('temp1.csv')
+    z = GaussianMixture(n_components=num_clusters, random_state=0)
+    z.fit(data)
+    feature_names = data.columns.values
+    cluster_explore()
+    return render_template('cluster-explore.html')
 
 @app.route('/add-cluster/',methods=['POST'])
 def upload_file():

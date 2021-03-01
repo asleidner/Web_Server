@@ -1,0 +1,59 @@
+import os
+
+def cluster_explore():
+    docstring="""<html>
+    <head>
+        <title>Cluster Visualization</title>
+        <link rel="stylesheet" href="/static/css/styles.css">
+    </head>
+    <body>
+        <header>
+            <h1 class="desktop"><a href="#">transparent</a><b href="#">.ai</b></h1>
+            <a id="menu-button" class="mobile" href="#">
+               <i class="menu-toggle fas fa-bars"></i>
+            </a>
+            <h1 class="mobile">CS330: Winter 2021</h1>
+         </header>
+
+         <nav>
+            <ul>
+               <li ><a href="/">Home</a></li>
+               <li class="active"><a href="/add-cluster/">New Cluster</a></li>
+               <li><a href="#">Browse Clusters</a></li>
+               <li><a href="#">Login</a></li>
+            </ul>
+         </nav>
+
+        <div class="cardoptions">
+            <div class="card">
+                <div class="bg-img" style="background-image:url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsro61ZhFgIqAyCurD9q_GV5fD2_TrEuEbhQ&usqp=CAU');"></div>
+                <div class="card-block">
+                <h4 class="card-title">Select a .csv file for evaluation!</h4>
+                <p class="card-text">
+                    Alex data to cluster and
+                    visualize!
+                </p>
+                <form method="POST" action="" enctype="multipart/form-data">
+                    <p><input type="file" name="file"></p>
+                    <p><input type="submit" class="submitbtn" value="Submit"></p>
+                </form>
+
+            </div>
+            </div>
+
+        </div>
+
+        <div class="hcenter">
+        <a href="/verify-data/" class="btn2">Fake-Submit!</a>
+        </div>
+
+        <script src="nav.js" type="text/javascript"></script>
+    </body>
+</html>"""
+
+    if os.path.exists('templates/cluster-explore.html'):
+        os.remove('templates/cluster-explore.html')
+    with open('templates/cluster-explore.html', 'w') as f:
+        f.write(docstring)
+        f.close()
+
