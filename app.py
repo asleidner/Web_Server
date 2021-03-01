@@ -14,6 +14,7 @@ import os
 from pymongo import MongoClient
 import json
 import dataframe_image as dfi
+import numpy as np
 
 import db
 from views import posts, comments
@@ -53,6 +54,7 @@ def view_data():
 def upload_file():
     uploaded_file = request.files['file']
     if uploaded_file.filename != '':
+        name_file = uploaded_file.filename
         dbname=app.config['MONGODB_SETTINGS']['db']
         client = MongoClient('mongodb+srv://'+os.environ.get('DB_USER')+':'+os.environ.get('DB_PASSWORD')+'@' + os.environ.get('HOST') + '/' + os.environ.get('DATABASE_NAME') + '?retryWrites=true&w=majority')
         newdb=client[dbname]
@@ -60,7 +62,18 @@ def upload_file():
         data = pd.read_csv('temp1.csv')
         collection = newdb['csvs']
         df2 = data.head(5)
-        df_styled = df2.style.background_gradient()
+        samples=len(data)
+        cols=len(data.columns)
+
+        def rower(data):
+            s = data.index % 2 != 0
+            s = pd.concat([pd.Series(s)] * data.shape[1], axis=1)  # 6 or the n of cols u have
+            z = pd.DataFrame(np.where(s, 'background-color:#add8e6', ''),
+                             index=data.index, columns=data.columns)
+            return z
+
+        df_styled = df2.style.set_caption(f'Your table, {name_file}, has {samples} entries and {cols} columns!')
+        df_styled= df_styled.apply(rower,axis=None)
         dfi.export(df_styled, "static/mytable.png",max_rows=5,max_cols=10)
         data_dict = json.loads(data.to_json())
         collection.insert(data_dict)
