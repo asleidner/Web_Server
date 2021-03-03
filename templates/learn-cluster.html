@@ -22,26 +22,23 @@
          </nav>
 
         <div class="cardoptions">
-        <div class="card2">
+        <div class="card">
         <subheader>
             <h1 class="desktop">cluster<b>.params </b></h1>
          </subheader>
-
+            <div class="bg-img" style="background-image:url('https://i.ndtvimg.com/i/2015-09/grapes_625x350_61443376353.jpg');"></div>
+            <h4 class="card-title">Cluster the data!</h4>
         <form action="{{ url_for('make_cluster')}}" id="post-form" method="post">
-                <div class="input-section">
-                    <label for="name">Name your workspace. </br></label>
-                    <input type="text" name="wspace" id="workspace">
-                </div>
                 <div class="input-section">
                     <label for="num">Number of clusters? </br></label>
                     <input type="number" name="nofc" id="numofc">
                 </div>
                 <button class="btn btn-main" id="save" type="submit">Save</button>
                 <a class="btn" href="/">Cancel</a>
-            </form>
+        </form>
 
         <div class="hcenter">
-        <a href="#" class="btn3">Cluster IT!</a>
+        <a href="#" class="btn3">Fake-Cluster IT!</a>
         </div>
         </div>
         </div>

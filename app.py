@@ -16,16 +16,26 @@ import json
 import dataframe_image as dfi
 import numpy as np
 from sklearn.mixture import GaussianMixture
+from bson.objectid import ObjectId
+from plot_data import table_maker, do_ttest
+import pickle
 
 import db
 from views import posts, comments
 from io import StringIO
-from cluster_explorer import cluster_explore
+from cluster_explorer import cluster_explore,cluster_explore2
+import gridfs
 
 app = Flask(__name__)
 CORS(app)
 db.init_database_connection(app)
 api = Api(app)
+
+dbname=app.config['MONGODB_SETTINGS']['db']
+client = MongoClient('mongodb+srv://'+os.environ.get('DB_USER')+':'+os.environ.get('DB_PASSWORD')+'@' + os.environ.get('HOST') + '/' + os.environ.get('DATABASE_NAME') + '?retryWrites=true&w=majority')
+newdb=client[dbname]
+#griddb=newdb.gridfs_example
+#fs = gridfs.GridFS(newdb)
 
 
 ########################### New in HW02
@@ -41,46 +51,97 @@ def create_post():
 def verify_data():
     return render_template('verify-data.html')
 
-@app.route('/verify-data/')
-def view_data():
-    dbname = app.config['MONGODB_SETTINGS']['db']
-    client = MongoClient(
-        'mongodb+srv://' + os.environ.get('DB_USER') + ':' + os.environ.get('DB_PASSWORD') + '@' + os.environ.get(
-            'HOST') + '/' + os.environ.get('DATABASE_NAME') + '?retryWrites=true&w=majority')
-    newdb = client[dbname]
-    collection = newdb['csvs']
-    doc=collection[0]
-    print(doc)
+# @app.route('/verify-data/')
+# def view_data():
+#     dbname = app.config['MONGODB_SETTINGS']['db']
+#     client = MongoClient(
+#         'mongodb+srv://' + os.environ.get('DB_USER') + ':' + os.environ.get('DB_PASSWORD') + '@' + os.environ.get(
+#             'HOST') + '/' + os.environ.get('DATABASE_NAME') + '?retryWrites=true&w=majority')
+#     newdb = client[dbname]
+#     collection = newdb['csvs']
+#     doc=collection[0]
+#     print(doc)
 
 @app.route('/learn-cluster/')
 def learn_cluster():
     return render_template('learn-cluster.html')
+
+@app.route('/cluster-explore/')
+def explore_cluster():
+    return render_template('cluster-explore.html')
+
 
 @app.route('/learn-cluster/',methods=['POST'])
 def make_cluster():
     #Workspace=request.form.get("workspace")
     #num_clusters = request.form.get("numofc")
     print(request.form)
-    workspace=request.form.get("wspace")
     num_clusters = int(request.form.get("nofc"))
+    ##this could get it from workspace name if we figure out endpoints
     data = pd.read_csv('temp1.csv')
     z = GaussianMixture(n_components=num_clusters, random_state=0)
     z.fit(data)
-    feature_names = data.columns.values
-    cluster_explore()
-    return render_template('cluster-explore.html')
+    filename = 'finalized_model.sav'
+    pickle.dump(z, open(filename, 'wb'))
+    cluster_explore(num_clusters)
+    return redirect('/cluster-explore/')
+
+@app.route('/cluster-explore/',methods=['POST'])
+def compare_cluster():
+    #Workspace=request.form.get("workspace")
+    #num_clusters = request.form.get("numofc")
+    clustera = int(request.form.get("groups"))-1
+    clusterb = int(request.form.get("groups1"))-1
+    print(clustera)
+    ##this could get it from workspace name if we figure out endpoints
+    filename = 'finalized_model.sav'
+    z= pickle.load(open(filename, 'rb'))
+    num_cluster=z.n_components
+    data = pd.read_csv('temp1.csv')
+    different_list,same_list=do_ttest(data,z,clustera,clusterb)
+    print(different_list)
+    print(same_list)
+    #cluster_explore(num_clusters)
+    cluster_explore2(num_cluster,different_list,same_list,clustera,clusterb)
+    return redirect('/feature-compare/')
+
+@app.route('/feature-compare/')
+def feature_compare():
+    return render_template('cluster-explore2.html')
+
+@app.route('/feature-compare/',methods=['POST'])
+def compare_cluster2():
+    #Workspace=request.form.get("workspace")
+    #num_clusters = request.form.get("numofc")
+    clustera = int(request.form.get("groups"))-1
+    clusterb = int(request.form.get("groups1"))-1
+    print(clustera)
+    ##this could get it from workspace name if we figure out endpoints
+    filename = 'finalized_model.sav'
+    z= pickle.load(open(filename, 'rb'))
+    num_cluster=z.n_components
+    data = pd.read_csv('temp1.csv')
+    different_list,same_list=do_ttest(data,z,clustera,clusterb)
+    print(different_list)
+    print(same_list)
+    #cluster_explore(num_clusters)
+    cluster_explore2(num_cluster,different_list,same_list,clustera,clusterb)
+    return redirect('/feature-compare/')
+
 
 @app.route('/add-cluster/',methods=['POST'])
 def upload_file():
     uploaded_file = request.files['file']
+    workspace = request.form.get("wspace")
     if uploaded_file.filename != '':
         name_file = uploaded_file.filename
-        dbname=app.config['MONGODB_SETTINGS']['db']
-        client = MongoClient('mongodb+srv://'+os.environ.get('DB_USER')+':'+os.environ.get('DB_PASSWORD')+'@' + os.environ.get('HOST') + '/' + os.environ.get('DATABASE_NAME') + '?retryWrites=true&w=majority')
-        newdb=client[dbname]
-        uploaded_file.save('temp1.csv')
-        data = pd.read_csv('temp1.csv')
+        #uploaded_file.save('temp1.csv')
+        data = pd.read_csv(uploaded_file)
         collection = newdb['csvs']
+        collection2 = newdb['index']
+        names_taken=collection2.find().distinct('_id')
+        if workspace in names_taken:
+            return "Workspace name taken, please go back and try again."
         df2 = data.head(5)
         samples=len(data)
         cols=len(data.columns)
@@ -94,9 +155,13 @@ def upload_file():
 
         df_styled = df2.style.set_caption(f'Your table, {name_file}, has {samples} entries and {cols} columns!')
         df_styled= df_styled.apply(rower,axis=None)
-        dfi.export(df_styled, "static/mytable.png",max_rows=5,max_cols=10)
+        dfi.export(df_styled, "static/mytable.png")
+        #df_table=table_maker(df2)
+        #a = fs.put(df_table,filename=workspace+"table")
         data_dict = json.loads(data.to_json())
-        collection.insert(data_dict)
+        _id = collection.insert(data_dict)
+        idstr=str(_id)
+        collection2.insert({'_id':workspace, 'csvid':_id})
     return redirect('/verify-data/')
 
 @app.route('/post/')

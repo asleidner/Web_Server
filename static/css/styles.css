@@ -33,12 +33,13 @@ header {
 }
 
 subheader {
-    margin-block:25px;
-   padding: 10px;
+    margin-block:20px;
+   padding: 5px;
    display: flex;
    flex-direction: column;
    align-items: center;
    justify-content: center;
+    font-size:12px;
 /*    height: 100px; */
 }
 
@@ -47,6 +48,7 @@ h2 {
    margin-top: 0px;
    margin-bottom: 5px;
 }
+
 
 nav ul {
    display: flex;
@@ -84,6 +86,16 @@ nav ul li:active {
 .card2 {
     width: auto;
     height: 463px;
+    margin: 0px 20px 20px 0px;
+    display: inline-block;
+    vertical-align: top;
+    border: solid 1px #CCC;
+    align-items: center;
+}
+
+.card3 {
+    width: 300px;
+    height: 750px;
     margin: 0px 20px 20px 0px;
     display: inline-block;
     vertical-align: top;
@@ -227,7 +239,7 @@ a.btn3 {
 .submitbtn {
   text-decoration: none;
     transition: .2s ease-out;
-    margin: 6px;
+    margin: 20px;
     display: inline-block;
     padding: 6px 103px;
     margin-bottom: 0;
@@ -241,6 +253,26 @@ a.btn3 {
     box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
     background: rgb(134, 3, 3);
     color: #fff !important;
+}
+
+.submitbtn2 {
+  text-decoration: none;
+    transition: .2s ease-out;
+    margin: 20px;
+    display: inline-block;
+    padding: 6px 103px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    white-space: normal !important;
+    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+    background: rgb(134, 3, 3);
+    color: #fff !important;
+
 }
 
 

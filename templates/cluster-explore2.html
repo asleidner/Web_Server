@@ -22,32 +22,48 @@
          </nav>
 
         <div class="cardoptions">
-        <div class="card">
+        <div class="card3">
         <subheader>
             <h1 class="desktop">cluster<b>.params </b></h1>
          </subheader>
             <div class="bg-img" style="background-image:url('https://i.ndtvimg.com/i/2015-09/grapes_625x350_61443376353.jpg');"></div>
             <h4 class="card-title">Compare the features of two clusters!</h4>
-            <form method="POST" action="{{ url_for('compare_cluster')}}">
+            <form method="POST" action="{{ url_for('compare_cluster2')}}">
                 <label for="groups">Cluster A:</label>
                 <select name="groups" id="groups">
-                    <option value="1">Cluster 1</option><option value="2">Cluster 2</option><option value="3">Cluster 3</option><option value="4">Cluster 4</option><option value="5">Cluster 5</option>
+                    <option value="1" selected>Cluster 1</option><option value="2">Cluster 2</option><option value="3">Cluster 3</option><option value="4">Cluster 4</option><option value="5">Cluster 5</option>
             </select>
-            <br><br>
+            <br><br><br><br>
             <label for="groups1">Cluster B:</label>
                 <select name="groups1" id="groups1">
-                    <option value="1">Cluster 1</option><option value="2">Cluster 2</option><option value="3">Cluster 3</option><option value="4">Cluster 4</option><option value="5">Cluster 5</option>
+                    <option value="1">Cluster 1</option><option value="2">Cluster 2</option><option value="3">Cluster 3</option><option value="4" selected>Cluster 4</option><option value="5">Cluster 5</option>
             </select>
-            <br>
+            <br><br><br>
             <p><input type="submit" class="submitbtn" value="Submit"></p>
                 <br>
             </form>
-            
-
-        <div class="hcenter">
+        </div>
+        
+        <div class="card3">
+            <subheader>
+            <h1 class="desktop">comparison<b>.results </b></h1>
+            </subheader>
+            <div class="bg-img" style="background-image:url('https://venngage-wordpress.s3.amazonaws.com/uploads/2018/03/Comparison-Infographic-Templates-and-Data-Visualization-Tips.jpg');"></div>
+            <div class="card-block">
+                <p class="card-text">
+                Based upon a 2 sided t-test and a P value of <0.05: <br><br>
+                The features that are different between Cluster 1 and Cluster 4: age, sex, bmi, bp, s1, s3, s4, s5, s6. <br><br>
+                The features that are the same between Cluster 1 and Cluster 4: s2.
+                </p>
+                <a href="#" class="btn">Browse</a>
+            </div>
+            </div>
+                    
+        </div>
+        
+        
+        <div class="hcenter">   
         <a href="#" class="btn3">Fake-Evaluate Them!</a>
-        </div>
-        </div>
         </div>
 
     </body>
